@@ -12,12 +12,6 @@ export async function run(provider: NetworkProvider) {
     }
 
     const jettonMaster = provider.open(JettonMaster.createFromConfig(config, await compile('JettonMaster')));
-
     console.log(jettonMaster.address);
 
-    await jettonMaster.sendDeploy(provider.sender(), toNano('0.5'));
-
-    await provider.waitForDeploy(jettonMaster.address);
-
-    // run methods on `jettonMaster`
 }
