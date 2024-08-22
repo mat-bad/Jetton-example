@@ -1,5 +1,6 @@
 import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from '@ton/core';
 import { compile } from '@ton/blueprint';
+import { encodeOffChainContent } from './JettonUtils';
 
 export type JettonMasterConfig = {
     totalSupply: bigint,
@@ -30,7 +31,7 @@ export async function getDefaultConfig() : Promise<JettonMasterConfig> {
     return {
         totalSupply : BigInt(0),
         adminAddress: Address.parse("kQBRYx5XOD-hzpGZmFENSZQvAsRqlcYc65SGHTsiGL7QMMQg"),
-        metadata: await compile('JettonWallet'),//Cell.fromBase64("b5ee9c7201010101004500008601697066733a2f2f6261666b7265696173743466716c6b7034757079753263766f37666e376161626a757378373635797a767169747372347270776676686a67756879"),
+        metadata: encodeOffChainContent("https://mat-bad.github.io/my-notebook/CKT.json"),//Cell.fromBase64("te6ccgEBAQEARgAAiAFpcGZzOi8vYmFma3JlaWFzdDRmcWxrcDR1cHl1MmN2bzdmbjdhYWJqdXN4NzY1eXp2cWl0c3I0cnB3ZnZoamd1aHk="),
         jettonWalletCode: await compile('JettonWallet')
     }
 }
