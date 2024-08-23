@@ -24,14 +24,16 @@ export const Opcodes = {
     excesses : 0xd53276db,
     burn : 0x595f07bc,
     burn_notification : 0x7bdd97de,
-    mint : 21
+    mint : 21,
+    change_admin: 22,
+    change_metadata: 23
 };
 
 export async function getDefaultConfig() : Promise<JettonMasterConfig> {
     return {
         totalSupply : BigInt(0),
         adminAddress: Address.parse("kQBRYx5XOD-hzpGZmFENSZQvAsRqlcYc65SGHTsiGL7QMMQg"),
-        metadata: encodeOffChainContent("https://mat-bad.github.io/my-notebook/CKT.json"),//Cell.fromBase64("te6ccgEBAQEARgAAiAFpcGZzOi8vYmFma3JlaWFzdDRmcWxrcDR1cHl1MmN2bzdmbjdhYWJqdXN4NzY1eXp2cWl0c3I0cnB3ZnZoamd1aHk="),
+        metadata: encodeOffChainContent("https://tether.to/usdt-ton.json"),//Cell.fromBase64("te6ccgEBAQEARgAAiAFpcGZzOi8vYmFma3JlaWFzdDRmcWxrcDR1cHl1MmN2bzdmbjdhYWJqdXN4NzY1eXp2cWl0c3I0cnB3ZnZoamd1aHk="),
         jettonWalletCode: await compile('JettonWallet')
     }
 }
@@ -96,6 +98,26 @@ export class JettonMaster implements Contract {
                     .storeCoins(0)
                     .endCell()
                 )
+                .endCell(),
+        });
+    }
+
+    async sendChangeMetadata(
+        provider: ContractProvider,
+        via: Sender,
+        opts: {
+            value: bigint;
+            queryID?: number;
+            newMetadata: Cell;
+        }
+    ) {
+        await provider.internal(via, {
+            value: opts.value,
+            sendMode: SendMode.PAY_GAS_SEPARATELY,
+            body: beginCell()
+                .storeUint(Opcodes.change_metadata, 32)
+                .storeUint(opts.queryID ?? 0, 64)
+                .storeRef(opts.newMetadata)
                 .endCell(),
         });
     }

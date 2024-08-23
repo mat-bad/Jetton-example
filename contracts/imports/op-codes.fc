@@ -7,3 +7,5 @@ int op::burn_notification() asm "0x7bdd97de PUSHINT";
 
 ;; Minter
 int op::mint() asm "21 PUSHINT";
+int op::change_admin() asm "22 PUSHINT";
+int op::change_metadata() asm "23 PUSHINT";
