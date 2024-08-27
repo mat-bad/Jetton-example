@@ -1,6 +1,6 @@
 import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from '@ton/core';
 import { compile } from '@ton/blueprint';
-import { encodeOffChainContent } from './JettonUtils';
+import { encodeOffChainContent, encodeOnChainContent } from './JettonUtils';
 
 export type JettonMasterConfig = {
     totalSupply: bigint,
@@ -16,6 +16,14 @@ export type JettonData = {
     metadata: Cell,
     jettonWalletCode: Cell
 };
+
+export const metadata = {
+    "name":"Cute Kitty V4",
+    "description":"Official token of the Cutest Kitty V4",
+    "symbol":"CKT4",
+    "decimals":"20",
+    "image":"https://mat-bad.github.io/my-notebook/CKT-img.jpg"
+}
 
 export const Opcodes = {
     transfer : 0xf8a7ea5,
@@ -33,7 +41,8 @@ export async function getDefaultConfig() : Promise<JettonMasterConfig> {
     return {
         totalSupply : BigInt(0),
         adminAddress: Address.parse("kQBRYx5XOD-hzpGZmFENSZQvAsRqlcYc65SGHTsiGL7QMMQg"),
-        metadata: encodeOffChainContent("https://tether.to/usdt-ton.json"),//Cell.fromBase64("te6ccgEBAQEARgAAiAFpcGZzOi8vYmFma3JlaWFzdDRmcWxrcDR1cHl1MmN2bzdmbjdhYWJqdXN4NzY1eXp2cWl0c3I0cnB3ZnZoamd1aHk="),
+        metadata: await encodeOnChainContent(metadata),
+        //metadata: await encodeOffChainContent("https://mat-bad.github.io/my-notebook/CKT1.json"),
         jettonWalletCode: await compile('JettonWallet')
     }
 }

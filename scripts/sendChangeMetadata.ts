@@ -5,7 +5,7 @@ import { encodeOffChainContent } from '../wrappers/JettonUtils';
 
 export async function run(provider: NetworkProvider, args: string[]) {
 
-    let config = await getDefaultConfig();
+    //let config = await getDefaultConfig();
 
     //const jettonMaster = provider.open(JettonMaster.createFromConfig(config, await compile('JettonMaster')));
     const jettonMaster = provider.open(JettonMaster.createFromAddress(Address.parse("kQDTbkTg3Jsjwy7Ux6J85RJ75cWkm4ZuP27XUuFWqhR_ks5w")));

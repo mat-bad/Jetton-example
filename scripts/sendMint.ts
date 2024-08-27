@@ -23,7 +23,7 @@ export async function run(provider: NetworkProvider, args: string[]) {
         return;
     }
     await jettonMaster.sendMint(sender, {
-        amount: BigInt(572361.42 * 1000000000),
+        amount: BigInt(10000 * 1000000000),
         value: toNano('0.2'),
         senderAddress: sender.address,
         forwardAmount: toNano('0.1')

@@ -1,9 +1,10 @@
 import { toNano, Address, Cell } from '@ton/core';
 import { JettonMaster, getDefaultConfig } from '../wrappers/JettonMaster';
 import { compile, NetworkProvider } from '@ton/blueprint';
+import { encodeOffChainContent, encodeOnChainContent} from '../wrappers/JettonUtils';
 
 export async function run(provider: NetworkProvider) {
-
+    
     let config = await getDefaultConfig();
 
     const jettonMaster = provider.open(JettonMaster.createFromConfig(config, await compile('JettonMaster')));
